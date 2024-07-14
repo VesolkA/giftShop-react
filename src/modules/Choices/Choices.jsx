@@ -7,10 +7,8 @@ export const Choices = ({
   className, 
   isOpen, 
   onToggle,
-   }) => {
-
-
-  return (
+   }) => 
+    (
     <div className={classNames("choices", className)}>
       <button className="choices__btn" type="button" onClick={onToggle}>
         {buttonLabel}
@@ -18,7 +16,5 @@ export const Choices = ({
 
       {isOpen && <div className="choices__box filter__choices-box">{children}</div>}
     </div>
-  )
-
-}
+  );
 

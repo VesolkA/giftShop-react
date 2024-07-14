@@ -44,7 +44,7 @@ export const Filter = () => {
             </fieldset>
           </Choices>
 
-          <Choices buttonLabel="Типтовара" 
+          <Choices buttonLabel="Тип товара" 
           isOpen={openChoice === 1} 
           onToggle={() => handleChoicesToggle(1)}>
             <ul className="filter__type-list">
