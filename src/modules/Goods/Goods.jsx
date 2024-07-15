@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { API_URL } from '../../const';
 
 
-export const Goods = () => {
+export const Goods = ({title}) => {
   const {
     items: goods,
     status: goodsStatus,
@@ -51,7 +51,7 @@ export const Goods = () => {
     <section className="goods">
       <div className="container goods__container">
         <div className="goods__box">
-          <h2 className="goods__title">Цветы</h2>
+          <h2 className="goods__title">{title}</h2>
           {content}
         </div>
         <Cart />

@@ -6,11 +6,12 @@ import { Hero } from "./modules/Hero/Hero";
 import { Order } from "./modules/Order/Order";
 import { Filter } from "./modules/Filter/Filter";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { registerCart } from "./redux/cartSlice";
 
 export const App = () => {
   const dispatch  = useDispatch();
+  const [titleGoods, setTitleGoods] = useState("");
 
   useEffect(() => {
     const initializeCart = async () => {
@@ -28,8 +29,8 @@ export const App = () => {
       
       <main>
       <Hero />
-      <Filter />
-      <Goods />
+      <Filter setTitleGoods={setTitleGoods} />
+      <Goods title={titleGoods} />
       <Subscribe />
       </main>
 
