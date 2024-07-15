@@ -74,6 +74,9 @@
     min-width: 120px;
     color: $white;
     background: $light-orange;
+    &:hover {
+      background: $orange;
+    }
   }
 
   &__button-text {

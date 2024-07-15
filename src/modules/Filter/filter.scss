@@ -101,6 +101,10 @@
     height: 40px;
     background-color: $bg;
     border: none;
+    outline: none;
+    &:hover {
+      outline: 3px solid $orange;
+    }
 
     @include mobile {
       width: 80px;
