@@ -25,9 +25,7 @@ export const registerCart = createAsyncThunk('cart/registerCart',
 
 // функция получения данных с корзины
 
-  export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, { getState }) => {
-        // const accessKey = getState().cart.accessKey;
-    // console.log(accessKey);
+  export const fetchCart = createAsyncThunk('cart/fetchCart', async () => {
 
     const responce = await fetch(`${API_URL}/api/cart`, {
       method: 'GET',
@@ -79,19 +77,19 @@ const cartSlice = createSlice({
     })
     .addCase(registerCart.rejected, (state, action) => {
       state.status = 'failed';
-      state.accessKey = ''; // null для отсутствующего ключа доступа
+      state.accessKey = ''; 
       state.error = action.error.message;
     })
 
      // Обработка состояния получения данных корзины
     .addCase(fetchCart.pending, (state) => {
       state.status = 'loading';
-      state.error = null; // add from Alexey
+      state.error = null; // !!
     })
     .addCase(fetchCart.fulfilled, (state, action) => {
       state.status = 'succeeded';
       state.items =action.payload;
-      state.totalCartPrice = state.items.reduce((total, item) => total + item.price * item.quantity, 0); // add from Alexey
+      state.totalCartPrice = state.items.reduce((total, item) => total + item.price * item.quantity, 0); // !!
     })
     .addCase(fetchCart.rejected, (state, action) => {
       state.status = 'failed';
@@ -102,12 +100,12 @@ const cartSlice = createSlice({
     // Обработка состояний товаров в корзине
     .addCase(addItemToCart.pending, (state) => {
       state.status = 'loading';
-      state.error = null; // add from Alexey
+      state.error = null; // !!
     })
     .addCase(addItemToCart.fulfilled, (state, action) => {
       state.status = 'succeeded';
       state.items =action.payload;
-      state.totalCartPrice = state.items.reduce((total, item) => total + item.price * item.quantity, 0); // add from Alexey
+      state.totalCartPrice = state.items.reduce((total, item) => total + item.price * item.quantity, 0); // !!
     })
     .addCase(addItemToCart.rejected, (state, action) => {
       state.status = 'failed';
