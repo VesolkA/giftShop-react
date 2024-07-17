@@ -2,15 +2,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import style from './Order.module.scss';
 import { closeModal } from '../../redux/orderSlice';
 import classNames from 'classnames';
+import { useCallback, useEffect } from 'react';
 
 export const Order = () => {
   const dispatch = useDispatch();
   const isOrderReady = false;
   const isOpen = useSelector(state => state.order.isOpen);
 
-  const handlerClose = () => {
-      dispatch(closeModal());
+  const handlerClose = useCallback(() => {
+    dispatch(closeModal());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Ecscape') {
+        handlerClose();
+      }
     };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEsc);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+    }
+  }, [isOpen, handlerClose]);
 
   if (!isOpen) return null;
 
@@ -21,7 +38,8 @@ export const Order = () => {
         {isOrderReady ? (
           <>
             <h2 className={style.title}>Заказ оформлен!</h2>
-            {<p className="style.id">Ваш номер заказа: 971</p>}         </>
+            {<p className="style.id">Ваш номер заказа: 971</p>}
+          </>
         ) : (
           <>
             <h2 className={style.title}>Оформить заказ</h2>

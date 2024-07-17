@@ -6,31 +6,31 @@ import { Hero } from "./modules/Hero/Hero";
 import { Order } from "./modules/Order/Order";
 import { Filter } from "./modules/Filter/Filter";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
-import { registerCart } from "./redux/cartSlice";
+import { useEffect, useRef, useState } from "react";
+import { fetchCart, registerCart } from "./redux/cartSlice";
 
 export const App = () => {
   const dispatch  = useDispatch();
   const [titleGoods, setTitleGoods] = useState("");
+  const goodsRef = useRef(null); // добавили для управлением скролла
 
   useEffect(() => {
     const initializeCart = async () => {
       await dispatch(registerCart());
-      // await dispatch(registerCart());
-    }
+      await dispatch(fetchCart());
+    };
 
     initializeCart();
-
   }, [dispatch]);
 
   return (
     <>
-      <Header />
+      <Header setTitleGoods={setTitleGoods} goodsRef={goodsRef} />
       
       <main>
       <Hero />
       <Filter setTitleGoods={setTitleGoods} />
-      <Goods title={titleGoods} />
+      <Goods title={titleGoods} ref={goodsRef} />
       <Subscribe />
       </main>
 

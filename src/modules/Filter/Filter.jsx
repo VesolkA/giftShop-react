@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Choices } from '../Choices/Choices';
 import './filter.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchGoods } from '../../redux/goodsSlice';
 import { getValidFilters, debounce } from '../../util';
 import { FilterRadio } from './FilterRadio';
+import { changePrice, changeType } from '../../redux/filtersSlice';
 
 const filterTypes = [
   { title: "Цветы", value: 'bouquets' },
@@ -14,14 +15,9 @@ const filterTypes = [
 
 export const Filter = ({ setTitleGoods }) => {
   const dispatch = useDispatch();
+  const filters = useSelector((state) => state.filters);
   const [openChoice, setOpenChoice] = useState(null);
 
-  const [filters, setFilters] = useState({
-    type: "bouquets",
-    minPrice: "",
-    maxPrice: "",
-    category: "",
-  });
 
   const prevFiltersRef = useRef({});
 
@@ -34,11 +30,16 @@ export const Filter = ({ setTitleGoods }) => {
   useEffect(() => {
     const prevFilters = prevFiltersRef.current;
     const validFilter = getValidFilters(filters);
-    if (prevFilters.type !== filters.type) {
+
+    if (!validFilter.type) {
+      return;
+    }
+
+    if (prevFilters.type !== validFilter.type) {
       dispatch(fetchGoods(validFilter));
-      setTitleGoods (
-        filterTypes.find(item => item.value === filters.type).title
-    );
+      setTitleGoods(
+        filterTypes.find(item => item.value === validFilter.type).title
+      );
     } else {
       debouncedFetchGoods(validFilter);
     }
@@ -52,16 +53,13 @@ export const Filter = ({ setTitleGoods }) => {
 
   const handleTypeChange = ({ target }) => {
     const { value } = target;
-    const newFilters = { ...filters, type: value, minPrice: "", maxPrice: "" };
-    setFilters(newFilters);
+    dispatch(changeType(value));
     setOpenChoice(-1);
-    
   };
 
   const handlePriceChange = ({ target }) => {
     const { name, value } = target;
-    const newFilters = { ...filters, [name]: !isNaN(parseInt(value, 10)) ? value : "" };
-    setFilters(newFilters);
+    dispatch(changePrice({ name, value }));
   };
 
   return (

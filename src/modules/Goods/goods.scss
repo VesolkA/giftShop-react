@@ -55,4 +55,12 @@
     color: $green;
     grid-column: 1 / -1;
   }
+  &__content {
+    color: $orange;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background: $footer;
+  }
 }

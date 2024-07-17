@@ -3,52 +3,48 @@ import { Card } from "../Card/Card";
 import { Cart } from "../Cart/Cart";
 import { useSelector } from 'react-redux';
 import { API_URL } from '../../const';
+import { forwardRef } from 'react'; // импортируем useRef
 
-
-export const Goods = ({title}) => {
+export const GoodsRender = ({ title }, ref) => {
   const {
     items: goods,
     status: goodsStatus,
     error,
   } = useSelector((state) => state.goods);
 
-
   let content = null;
 
- 
   if (goodsStatus === 'loading') {
     content = <p>Загрузка товаров...</p>;
   }
-  if (goodsStatus === "succeeded") {
+  if (goodsStatus === "succeeded" && goods.length) {
     content = (
-    <ul className="goods__list">
-    {goods.map((item) => (
-      <li key={item.id} className="goods__item">
-        <Card className='goods__card' 
-        id={item.id}
-        img={`${API_URL}${item.photoUrl}`}
-        title={item.name}
-        dateDelivery="сегодня в 14.00"
-        price={item.price}
-        />
-      </li>
-    ))}
-  </ul>
-  );
+      <ul className="goods__list">
+        {goods.map((item) => (
+          <li key={item.id} className="goods__item">
+            <Card className='goods__card'
+              id={item.id}
+              img={`${API_URL}${item.photoUrl}`}
+              title={item.name}
+              dateDelivery="сегодня в 14.00"
+              price={item.price}
+            />
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  if (!goods.length) {
+    content = <p className='goods__content'>По вашему запросу ничего не найдено!</p>
   }
 
   if (goodsStatus === 'failed') {
-    content = <p>Ошибка загрузки товаров: {error}</p>;
-  }  
-  
-  // start help
-  // if (!goods || goods.length === 0) {
-  //   return <p>Нет доступных товаров.</p>;
-  // }
-  // end of help
+    content = <p className='goods__content'>Ошибка загрузки товаров: {error}</p>;
+  }
 
   return (
-    <section className="goods">
+    <section className="goods" ref={ref}> {/* прикрепляем реф к секции */}
       <div className="container goods__container">
         <div className="goods__box">
           <h2 className="goods__title">{title}</h2>
@@ -57,9 +53,10 @@ export const Goods = ({title}) => {
         <Cart />
       </div>
     </section>
-
   );
 };
 
+// Оборачиваем функцию рендеринга в forwardRef
+export const Goods = forwardRef(GoodsRender);
 
 
