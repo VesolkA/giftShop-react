@@ -1,6 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { API_URL } from '../const';
 
+const initialState = {
+  isOpen: false,
+  items: [],
+  status: 'idle',
+  accessKey: null,
+  error: null,
+  totalCartPrice: 0,
+}; 
+
 export const registerCart = createAsyncThunk('cart/registerCart',
   async () => {
     const responce = await fetch(`${API_URL}/api/cart/register`, {
@@ -15,8 +24,13 @@ export const registerCart = createAsyncThunk('cart/registerCart',
   });
 
 // функция получения данных с корзины
-  export const fetchCart = createAsyncThunk('cart/fetchCart', async () => { 
+
+  export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, { getState }) => {
+        // const accessKey = getState().cart.accessKey;
+    // console.log(accessKey);
+
     const responce = await fetch(`${API_URL}/api/cart`, {
+      method: 'GET',
       credentials: 'include',
     });
 
@@ -26,7 +40,9 @@ export const registerCart = createAsyncThunk('cart/registerCart',
     return await responce.json();
   });  
 
-export const addItemToCart = createAsyncThunk('cart/addItemToCart', async ({ productId, quantity }) => {
+export const addItemToCart = createAsyncThunk('cart/addItemToCart', 
+
+async ({ productId, quantity }) => {
   const responce = await fetch(`${API_URL}/api/cart/items`, {
     method: 'POST', 
     credentials: 'include',
@@ -41,15 +57,6 @@ export const addItemToCart = createAsyncThunk('cart/addItemToCart', async ({ pro
   return await responce.json();
 },
 );
-
-const initialState = {
-  isOpen: false,
-  items: [],
-  status: 'idle',
-  accessKey: null,
-  error: null,
-
-};
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -72,28 +79,35 @@ const cartSlice = createSlice({
     })
     .addCase(registerCart.rejected, (state, action) => {
       state.status = 'failed';
-      state.accessKey = null; // null для отсутствующего ключа доступа
+      state.accessKey = ''; // null для отсутствующего ключа доступа
       state.error = action.error.message;
     })
+
      // Обработка состояния получения данных корзины
     .addCase(fetchCart.pending, (state) => {
       state.status = 'loading';
+      state.error = null; // add from Alexey
     })
     .addCase(fetchCart.fulfilled, (state, action) => {
       state.status = 'succeeded';
       state.items =action.payload;
+      state.totalCartPrice = state.items.reduce((total, item) => total + item.price * item.quantity, 0); // add from Alexey
     })
     .addCase(fetchCart.rejected, (state, action) => {
       state.status = 'failed';
       state.error = action.error.message;
     })
+
+
     // Обработка состояний товаров в корзине
     .addCase(addItemToCart.pending, (state) => {
       state.status = 'loading';
+      state.error = null; // add from Alexey
     })
     .addCase(addItemToCart.fulfilled, (state, action) => {
       state.status = 'succeeded';
       state.items =action.payload;
+      state.totalCartPrice = state.items.reduce((total, item) => total + item.price * item.quantity, 0); // add from Alexey
     })
     .addCase(addItemToCart.rejected, (state, action) => {
       state.status = 'failed';
@@ -103,8 +117,5 @@ const cartSlice = createSlice({
 });
 
 export const {toggleCart} = cartSlice.actions;
-
-// Селектор для вычисления общей суммы
-export const selectTotalPrice = (state) => state.cart.items.reduce((total, item) => total + item.price * item.quantity, 0);
 
 export default cartSlice.reducer; 

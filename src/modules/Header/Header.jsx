@@ -6,7 +6,7 @@ import { fetchGoods } from '../../redux/goodsSlice';
 import { changeType } from '../../redux/filtersSlice';
 
 
-export const Header = ({ setTitleGoods, goodsRef }) => { // добавили goodsRef
+export const Header = ({ setTitleGoods, scrollToFilter }) => { 
   const dispatch = useDispatch();
   const cartItems = useSelector(state => state.cart.items);
   const [seacrhValue, setSearchValue] = useState("");
@@ -19,13 +19,9 @@ const handleSubmit = (e) => {
   e.preventDefault();
   dispatch(fetchGoods({ search: seacrhValue }));
   setTitleGoods('Результат поиска:');
-  setSearchValue('');
-  dispatch(changeType('')); // обнуляем состояние типов фильтров при поиске
-
-      // Скроллим к блоку goods
-      if (goodsRef && goodsRef.current) {
-        goodsRef.current.scrollIntoView({ behavior: 'smooth' });
-      }
+  dispatch(changeType(""));
+  scrollToFilter();
+  setSearchValue("");
 };
 
   return (
@@ -56,7 +52,7 @@ const handleSubmit = (e) => {
 
       <button className="header__cart-button" 
       onClick={handlerCartToggle}>
-      {cartItems.length}
+      {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
       </button>
     </div>
   </header>

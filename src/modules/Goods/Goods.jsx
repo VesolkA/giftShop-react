@@ -3,20 +3,22 @@ import { Card } from "../Card/Card";
 import { Cart } from "../Cart/Cart";
 import { useSelector } from 'react-redux';
 import { API_URL } from '../../const';
-import { forwardRef } from 'react'; // импортируем useRef
 
-export const GoodsRender = ({ title }, ref) => {
+export const Goods = ({ title }) => {
   const {
     items: goods,
     status: goodsStatus,
     error,
   } = useSelector((state) => state.goods);
 
+
+
   let content = null;
 
   if (goodsStatus === 'loading') {
     content = <p>Загрузка товаров...</p>;
   }
+
   if (goodsStatus === "succeeded" && goods.length) {
     content = (
       <ul className="goods__list">
@@ -35,7 +37,7 @@ export const GoodsRender = ({ title }, ref) => {
     );
   }
 
-  if (!goods.length) {
+  if (goodsStatus === "succeeded" && !goods.length) {
     content = <p className='goods__content'>По вашему запросу ничего не найдено!</p>
   }
 
@@ -44,7 +46,7 @@ export const GoodsRender = ({ title }, ref) => {
   }
 
   return (
-    <section className="goods" ref={ref}> {/* прикрепляем реф к секции */}
+    <section className="goods">
       <div className="container goods__container">
         <div className="goods__box">
           <h2 className="goods__title">{title}</h2>
@@ -55,8 +57,3 @@ export const GoodsRender = ({ title }, ref) => {
     </section>
   );
 };
-
-// Оборачиваем функцию рендеринга в forwardRef
-export const Goods = forwardRef(GoodsRender);
-
-

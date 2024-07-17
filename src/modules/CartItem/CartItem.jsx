@@ -1,19 +1,54 @@
-import s from "./CartItem.module.scss";
+import { useDispatch } from "react-redux";
+import { API_URL } from "../../const";
+import style from "./CartItem.module.scss";
+import { useState } from "react";
+import { addItemToCart } from "../../redux/cartSlice";
+import { debounce } from "../../util";
 
-export const CartItem = ({ img, title, price }) => {
+export const CartItem = ({ id, photoUrl, name, price, quantity }) => {
+  const dispatch = useDispatch();
+  const [inputQuantity, setInputQuantity] = useState(quantity);
+
+  const debouceInputChange = debounce((newQuantity) => {
+    dispatch(addItemToCart({ product: id, quantity: newQuantity }));
+  }, 500);
+
+  const handleInputChange = (e) => {
+    const newQuantity = !isNaN(parseInt(e.target.value)) ? parseInt(e.target.value) : '';
+    setInputQuantity(newQuantity);
+    debouceInputChange(newQuantity);
+  };
+
+  const handleDecrement = () => {
+    const newQuantity = inputQuantity - 1;
+    setInputQuantity(newQuantity);
+    dispatch(addItemToCart({ product: id, quantity: newQuantity }));
+  };
+
+  const handleIncrement = () => {
+    const newQuantity = inputQuantity + 1;
+    setInputQuantity(newQuantity);
+    dispatch(addItemToCart({ product: id, quantity: newQuantity }));
+  };
+
   return (
-    <li className={s.item}>
-    <img className={s.img}
-      src={img}
-      alt={title} />
-      <h4 className={s.title}>{title}</h4>
-      <div className={s.counter}>
-        <button className={s.btn}>-</button>
+    <li className={style.item}>
+      <img className={style.img}
+        src={`${API_URL}${photoUrl}`}
+        alt={name} />
+      <h4 className={style.title}>{name}</h4>
+      <div className={style.counter}>
+        <button className={style.btn} onClick={handleDecrement} >-</button>
         <input
-          className={s.input} type="number" max="99" min="0"
-          value="1" />
-        <button className={s.btn}>+</button></div>
-      <p className={s.price}>{price}&nbsp;₽</p>
+          className={style.input}
+          type="number"
+          max="99"
+          min="0"
+          value={inputQuantity}
+          onChange={handleInputChange} 
+          />
+        <button className={style.btn} onClick={handleIncrement} >+</button></div>
+      <p className={style.price}>{price * inputQuantity}&nbsp;₽</p>
     </li>
   )
 };

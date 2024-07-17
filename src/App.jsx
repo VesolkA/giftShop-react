@@ -6,13 +6,14 @@ import { Hero } from "./modules/Hero/Hero";
 import { Order } from "./modules/Order/Order";
 import { Filter } from "./modules/Filter/Filter";
 import { useDispatch } from "react-redux";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useRef } from "react";
 import { fetchCart, registerCart } from "./redux/cartSlice";
 
 export const App = () => {
-  const dispatch  = useDispatch();
+  const dispatch = useDispatch();
   const [titleGoods, setTitleGoods] = useState("");
-  const goodsRef = useRef(null); // добавили для управлением скролла
+  const filterRef = useRef(null);
 
   useEffect(() => {
     const initializeCart = async () => {
@@ -23,15 +24,22 @@ export const App = () => {
     initializeCart();
   }, [dispatch]);
 
+  const scrollToFilter = () => {
+    if (filterRef.current) {
+      filterRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+
   return (
     <>
-      <Header setTitleGoods={setTitleGoods} goodsRef={goodsRef} />
-      
+      <Header setTitleGoods={setTitleGoods} scrollToFilter={scrollToFilter} />
+
       <main>
-      <Hero />
-      <Filter setTitleGoods={setTitleGoods} />
-      <Goods title={titleGoods} ref={goodsRef} />
-      <Subscribe />
+        <Hero />
+        <Filter setTitleGoods={setTitleGoods} filterRef={filterRef} />
+        <Goods title={titleGoods} />
+        <Subscribe />
       </main>
 
       <Footer />

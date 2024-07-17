@@ -13,9 +13,9 @@ const filterTypes = [
   { title: "Открытки", value: 'postcards' },
 ]
 
-export const Filter = ({ setTitleGoods }) => {
+export const Filter = ({ setTitleGoods, filterRef }) => {
   const dispatch = useDispatch();
-  const filters = useSelector((state) => state.filters);
+  const filters = useSelector(state => state.filters);
   const [openChoice, setOpenChoice] = useState(null);
 
 
@@ -63,7 +63,7 @@ export const Filter = ({ setTitleGoods }) => {
   };
 
   return (
-    <section className="filter">
+    <section className="filter" ref={filterRef}>
       <h2 className="visually-hidden"></h2>
       <div className="container">
         <form className="filter__form">

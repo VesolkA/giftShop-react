@@ -4,15 +4,19 @@ import './cart.scss';
 import { toggleCart } from '../../redux/cartSlice';
 import { openModal } from '../../redux/orderSlice';
 import { useEffect, useRef } from 'react';
-import { selectTotalPrice } from '../../redux/cartSlice';
 
 export const Cart = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch();  
   const isOpen = useSelector((state) => state.cart.isOpen);
-  const items = useSelector(state => state.cart.items);
-  const totalPrice = useSelector(selectTotalPrice); 
-  
+  const goodsInCart = useSelector((state) => state.cart.items);
+
   const cartRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      cartRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+  }, [isOpen]);
 
   const handlerCartClose = () => {
     dispatch(toggleCart());
@@ -21,12 +25,6 @@ export const Cart = () => {
   const handlerOrderOpen = () => {
     dispatch(openModal());
   }
-
-  useEffect(() => {
-    if (isOpen) {
-      cartRef.current.scrollIntoView({ behavior: "smooth" })
-    }
-  }, [isOpen])
 
   if (!isOpen) return null;
 
@@ -50,14 +48,16 @@ export const Cart = () => {
         <p className="cart__date-delivery">сегодня в 14:00</p>
 
         <ul className="cart__list">
-          {items.map((item) => (
+          {goodsInCart.map((item) => (
             <CartItem key={item.id} {...item} />
           ))}
         </ul>
 
         <div className="cart__footer">
-          <button className="cart__order-btn" onClick={handlerOrderOpen}>Оформить</button>
-          <p className="cart__price cart__price_total">{totalPrice.toLocaleString()}&nbsp;₽</p>
+          <button className="cart__order-btn"
+            onClick={handlerOrderOpen} disabled={!goodsInCart.length}>Оформить</button>
+          <p className="cart__price cart__price_total">
+            {goodsInCart.reduce((acc, item) => acc + item.price * item.quantity, 0)}&nbsp;₽</p>
         </div>
       </div>
     </section>

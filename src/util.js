@@ -16,11 +16,20 @@ export const debounce = (fn, msec) => {
   return (...arg) => {
     const prevCall = lastCall;
     lastCall = Date.now()
+
     if (prevCall && lastCall - prevCall <= msec) {
-      clearTimeout(lastCallTimer)
+      clearTimeout(lastCallTimer);
     }
 
     lastCallTimer = setTimeout(() => fn(...arg), msec); 
   };
 };
 
+export const formatNumber = (num) => {
+  const formatter = new Intl.NumberFormat('ru', {
+    style: 'currency',
+    currency: 'RUB',
+    maximumFractionDigits: 0,
+  });
+  return formatter.format(num);  
+}

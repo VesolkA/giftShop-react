@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { addItemToCart } from '../../redux/cartSlice';
 import { useState } from 'react';
 
-export const Card = ({ className, id, img, title, dateDelivery, price }) => {
+export const Card = ({ className = '', id, img, title, dateDelivery, price }) => {
   const dispatch  = useDispatch();
 
   const [buttonText, setButtonText] = useState(`${price}\u00A0₽`); 
