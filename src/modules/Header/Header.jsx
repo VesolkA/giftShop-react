@@ -1,15 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
 import './header.scss';
-import { toggleCart } from '../../redux/cartSlice';
-import { useState } from 'react';
-import { fetchGoods } from '../../redux/goodsSlice';
-import { changeType } from '../../redux/filtersSlice';
+import { useRef, useState } from 'react';
+import { toggleCart } from '../../redux/slices/cartSlice';
+// import { fetchGoods } from '../../redux/thunks/fetchGoods';
+import { changeSearch } from '../../redux/slices/filtersSlice';
 
-
-export const Header = ({ setTitleGoods, scrollToFilter }) => { 
+export const Header = () => { 
   const dispatch = useDispatch();
-  const cartItems = useSelector(state => state.cart.items);
-  const [seacrhValue, setSearchValue] = useState("");
+  const cartItems = useSelector((state) => state.cart.items);
+  const [searchValue, setSearchValue] = useState("");
+
+
+  const searchInputRef = useRef(null);
 
   const handlerCartToggle = () => {
     dispatch(toggleCart());
@@ -17,11 +19,20 @@ export const Header = ({ setTitleGoods, scrollToFilter }) => {
 
 const handleSubmit = (e) => {
   e.preventDefault();
-  dispatch(fetchGoods({ search: seacrhValue }));
-  setTitleGoods('Результат поиска:');
-  dispatch(changeType(""));
-  scrollToFilter();
-  setSearchValue("");
+  if (searchValue.trim() !== "") {
+    searchInputRef.current.style.cssText = "";
+    dispatch(changeSearch(searchValue));
+    setSearchValue("");
+  } else {
+    searchInputRef.current.style.cssText = `
+      outline: 2px solid tomato;
+      outlineOffset: 5px;
+   `;
+
+    setTimeout(() => {
+      searchInputRef.current.style.cssText = "";
+    }, 2000);
+  }
 };
 
   return (
@@ -33,8 +44,9 @@ const handleSubmit = (e) => {
         type="search" 
         name="search"
         placeholder="Букет из роз"
-        value={seacrhValue} 
+        value={searchValue} 
         onChange={(e) => setSearchValue(e.target.value)}
+        ref={searchInputRef}
           />
 
         <button className="header__search-button" aria-label="начать поиск">
@@ -56,5 +68,6 @@ const handleSubmit = (e) => {
       </button>
     </div>
   </header>
+  
 );
 };

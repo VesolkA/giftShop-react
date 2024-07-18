@@ -2,33 +2,35 @@ import { useDispatch } from "react-redux";
 import { API_URL } from "../../const";
 import style from "./CartItem.module.scss";
 import { useState } from "react";
-import { addItemToCart } from "../../redux/cartSlice";
-import { debounce } from "../../util";
+import { debounce, isNumber } from "../../util";
+import { addItemToCart } from "../../redux/thunks/addItemToCart";
 
 export const CartItem = ({ id, photoUrl, name, price, quantity }) => {
   const dispatch = useDispatch();
   const [inputQuantity, setInputQuantity] = useState(quantity);
 
-  const debouceInputChange = debounce((newQuantity) => {
-    dispatch(addItemToCart({ product: id, quantity: newQuantity }));
+  const debounceInputChange = debounce((newQuantity) => {
+    if (isNumber(newQuantity)) {
+      dispatch(addItemToCart({ productId: id, quantity: newQuantity }));
+    }
   }, 500);
 
   const handleInputChange = (e) => {
-    const newQuantity = !isNaN(parseInt(e.target.value)) ? parseInt(e.target.value) : '';
+    const newQuantity = parseInt(e.target.value);
     setInputQuantity(newQuantity);
-    debouceInputChange(newQuantity);
+    debounceInputChange(newQuantity);
   };
 
   const handleDecrement = () => {
     const newQuantity = inputQuantity - 1;
     setInputQuantity(newQuantity);
-    dispatch(addItemToCart({ product: id, quantity: newQuantity }));
+    dispatch(addItemToCart({ productId: id, quantity: newQuantity }));
   };
 
   const handleIncrement = () => {
     const newQuantity = inputQuantity + 1;
     setInputQuantity(newQuantity);
-    dispatch(addItemToCart({ product: id, quantity: newQuantity }));
+    dispatch(addItemToCart({ productId: id, quantity: newQuantity }));
   };
 
   return (
@@ -48,7 +50,7 @@ export const CartItem = ({ id, photoUrl, name, price, quantity }) => {
           onChange={handleInputChange} 
           />
         <button className={style.btn} onClick={handleIncrement} >+</button></div>
-      <p className={style.price}>{price * inputQuantity}&nbsp;₽</p>
+      <p className={style.price}>{inputQuantity ? price * inputQuantity : 0}&nbsp;₽</p>
     </li>
   )
 };

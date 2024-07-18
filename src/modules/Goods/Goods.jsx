@@ -3,6 +3,7 @@ import { Card } from "../Card/Card";
 import { Cart } from "../Cart/Cart";
 import { useSelector } from 'react-redux';
 import { API_URL } from '../../const';
+import { Preload } from '../Preload/Preload';
 
 export const Goods = ({ title }) => {
   const {
@@ -11,12 +12,10 @@ export const Goods = ({ title }) => {
     error,
   } = useSelector((state) => state.goods);
 
-
-
   let content = null;
 
   if (goodsStatus === 'loading') {
-    content = <p>Загрузка товаров...</p>;
+    content = <Preload />;
   }
 
   if (goodsStatus === "succeeded" && goods.length) {
@@ -46,7 +45,7 @@ export const Goods = ({ title }) => {
   }
 
   return (
-    <section className="goods">
+    <section className="goods" style={{ position: goodsStatus === "loading" ? "relative" : "" }}>
       <div className="container goods__container">
         <div className="goods__box">
           <h2 className="goods__title">{title}</h2>

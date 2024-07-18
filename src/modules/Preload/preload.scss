@@ -2,10 +2,9 @@
 @use "@scss/media" as *;
 
 .preload {
-  display: none;
+  display: flex;
   position: absolute;
   inset: 0;
-
   z-index: 999;
   justify-content: center;
   padding-top: 200px;

@@ -7,13 +7,12 @@ import { Order } from "./modules/Order/Order";
 import { Filter } from "./modules/Filter/Filter";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { useRef } from "react";
-import { fetchCart, registerCart } from "./redux/cartSlice";
+import { registerCart } from "./redux/thunks/registerCart";
+import { fetchCart } from "./redux/thunks/fetchCart";
 
 export const App = () => {
   const dispatch = useDispatch();
   const [titleGoods, setTitleGoods] = useState("");
-  const filterRef = useRef(null);
 
   useEffect(() => {
     const initializeCart = async () => {
@@ -24,20 +23,14 @@ export const App = () => {
     initializeCart();
   }, [dispatch]);
 
-  const scrollToFilter = () => {
-    if (filterRef.current) {
-      filterRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
 
   return (
     <>
-      <Header setTitleGoods={setTitleGoods} scrollToFilter={scrollToFilter} />
+      <Header />
 
       <main>
         <Hero />
-        <Filter setTitleGoods={setTitleGoods} filterRef={filterRef} />
+        <Filter setTitleGoods={setTitleGoods} />
         <Goods title={titleGoods} />
         <Subscribe />
       </main>
