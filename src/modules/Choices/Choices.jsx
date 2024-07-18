@@ -1,14 +1,10 @@
 import classNames from "classnames";
-import "./choices.scss";
+import style from './Choices.module.scss';
 import { useEffect, useRef } from "react";
 import { adjustElementPosition, debounce } from "../../util";
 
 export const Choices = ({ 
-  children, 
-  buttonLabel, 
-  className, 
-  isOpen, 
-  onToggle,
+  children, buttonLabel, className, isOpen, onToggle,
    }) => {
     
     const choiceRef = useRef(null); 
@@ -33,12 +29,12 @@ export const Choices = ({
 
 
     return (
-    <div className={classNames("choices", className)}>
-      <button className="choices__btn" type="button" onClick={onToggle}>
+    <div className={classNames(style.choices, className)}>
+      <button className={style.btn} type="button" onClick={onToggle}>
         {buttonLabel}
       </button>
 
-      {isOpen && <div className="choices__box filter__choices-box" ref={choiceRef}>{children}</div>}
+      {isOpen && <div className={classNames(style.box, "filter__choices-box")}  ref={choiceRef}>{children}</div>}
     </div>
   );}
 

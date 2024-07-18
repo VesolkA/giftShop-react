@@ -1,10 +1,11 @@
 import { CartItem } from '../CartItem/CartItem';
 import { useDispatch, useSelector } from 'react-redux';
-import './cart.scss';
+import style from './Cart.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import { toggleCart } from '../../redux/slices/cartSlice';
 import { openModal } from '../../redux/slices/orderSlice';
 import { Preload } from "../Preload/Preload";
+import classNames from 'classnames';
 
 export const Cart = () => {
   const dispatch = useDispatch();  
@@ -28,19 +29,25 @@ export const Cart = () => {
   const calcDeliveryTime = () => {
     const currentDate = new Date();
     const currentHour = currentDate.getHours();
-
+  
     let deliveryDate;
-    if (currentHour < 21) {
-      if (currentHour >= 9 && currentHour + 3 < 21) {
-        const deliveryTime = new Date(currentDate.getTime() + 3 * 60 * 60 * 1000);
-        deliveryDate = `сегодня после ${deliveryTime.getHours()}:00`;
+  
+    if (currentHour < 7) {
+      deliveryDate = `сегодня после 9:00`;
+    } else if (currentHour < 19) { 
+      const deliveryTime = new Date(currentDate.getTime() + 2 * 60 * 60 * 1000);
+      const deliveryHour = deliveryTime.getHours();
+      
+      if (deliveryHour < 21) {
+        deliveryDate = `сегодня после ${deliveryHour}:00`;
       } else {
-        deliveryDate = `сегодня после 21:00`;
+        deliveryDate = `завтра с 9:00`;
       }
-    } else {
+    } else { // Если текущее время больше 19:00
       deliveryDate = `завтра с 9:00`;
     }
-    return `${deliveryDate}`;
+  
+    return deliveryDate;
   };
 
   useEffect(() => {
@@ -58,12 +65,12 @@ export const Cart = () => {
   if (!isOpen) return null;
 
   return (
-    <section className="cart cart__open" ref={cartRef}>
-      <div className="cart__container">
-        <div className="cart__header">
-          <h3 className="cart__title">Ваш заказ</h3>
+    <section className={classNames('cart', style.open)} ref={cartRef}>
+      <div className={style.container}>
+        <div className={style.header}>
+          <h3 className={style.title}>Ваш заказ</h3>
 
-          <button className="cart__close" onClick={handlerCartClose}>
+          <button className={style.close} onClick={handlerCartClose}>
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <rect x="5" y="5.70715" width="1" height="25"
@@ -74,25 +81,25 @@ export const Cart = () => {
           </button>
         </div>
 
-        <p className="cart__date-delivery">{dateDelivery}</p>
+        <p className={style['date-delivery']}>{dateDelivery}</p>
 
         {status === "loading" ? (
-          <div className="cart__preload">
+          <div className={style.preload}>
             <Preload />
           </div>
         ) : (
-          <ul className="cart__list">
+          <ul className={style.list}>
             {goodsInCart.map((item) => (
               <CartItem key={item.id} {...item} />
             ))}
           </ul>
         )}
 
-        <div className="cart__footer">
-          <button className="cart__order-btn"
+        <div className={style.footer}>
+          <button className={style['order-btn']}
             onClick={handlerOrderOpen} 
             disabled={!goodsInCart.length}>Оформить</button>
-          <p className="cart__price cart__price_total">
+          <p className={classNames(style.price, style['price_total'])}>
             {goodsInCart.reduce((acc, item) => acc + item.price * item.quantity, 0)}&nbsp;₽</p>
             
         </div>

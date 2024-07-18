@@ -14,8 +14,9 @@
     min-height: 380px;
     border-radius: 20px;
   }
+}
 
-  &__image {
+  .image {
     object-fit: cover;
     width: 100%;
     height: 359px;
@@ -25,7 +26,7 @@
     }
   }
 
-  &__content {
+  .content {
     padding: 32px 16px;
     flex-grow: 1;
     display: flex;
@@ -37,13 +38,13 @@
     }
   }
 
-  &__title {
+  .title {
     flex-grow: 1;
     font-weight: 400;
     font-size: 18px;
   }
 
-  &__footer {
+  .footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -56,7 +57,7 @@
     }
   }
 
-  &__date-delivery {
+  .date-delivery {
     padding-left: 20px;
     text-align: center;
     background-image: url("/img/delivery.svg");
@@ -69,7 +70,7 @@
     }
   }
 
-  &__button {
+  .button {
     border-radius: 32px;
     padding: 8px 16px;
     min-width: 120px;
@@ -80,8 +81,6 @@
     }
   }
 
-  &__button-text {
+  .button-text {
     display: none;
   }
-  
-}

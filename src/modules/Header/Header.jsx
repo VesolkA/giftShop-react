@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
-import './header.scss';
+import style from './Header.module.scss';
 import { useRef, useState } from 'react';
 import { toggleCart } from '../../redux/slices/cartSlice';
 // import { fetchGoods } from '../../redux/thunks/fetchGoods';
 import { changeSearch } from '../../redux/slices/filtersSlice';
+import classNames from 'classnames';
 
 export const Header = () => { 
   const dispatch = useDispatch();
@@ -36,11 +37,11 @@ const handleSubmit = (e) => {
 };
 
   return (
-  <header className="header">
-    <div className="container header__container">
-      <form className="header__form" action="#" onSubmit={handleSubmit}>
+  <header className={style.header}>
+    <div className={classNames(style.container, "container")} >
+      <form className={style.form} action="#" onSubmit={handleSubmit}>
         <input 
-        className="header__input" 
+        className={style.input} 
         type="search" 
         name="search"
         placeholder="Букет из роз"
@@ -49,7 +50,7 @@ const handleSubmit = (e) => {
         ref={searchInputRef}
           />
 
-        <button className="header__search-button" aria-label="начать поиск">
+        <button className={style['search-button']} aria-label="начать поиск">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path
@@ -59,10 +60,10 @@ const handleSubmit = (e) => {
         </button>
       </form>
 
-      <img className="header__logo" src="/img/logo.svg"
+      <img className={style.logo} src="/img/logo.svg"
         alt="Логотип Mirano Flower Boutique" />
 
-      <button className="header__cart-button" 
+      <button className={style['cart-button']} 
       onClick={handlerCartToggle}>
       {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
       </button>

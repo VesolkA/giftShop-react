@@ -1,22 +1,22 @@
 import classNames from "classnames";
-import s from './Footer.module.scss';
+import style from './Footer.module.scss';
 
 
 export const Footer = () => (
 
 
-  <footer className={s.footer}>
-    <div className={classNames('container', s.container)}>
-      <img className={s.logo} src="img/logo.svg"
+  <footer className={style.footer}>
+    <div className={classNames('container', style.container)}>
+      <img className={style.logo} src="img/logo.svg"
         alt="Логотип Mirano Flower Boutique" />
 
-      <address className={s.address}>
-        <a className={s.mail}
+      <address className={style.address}>
+        <a className={style.mail}
           href="mailto:Mirano@gmail.com">Mirano@gmail.com</a>
 
-        <ul className={s.socialList}>
-          <li className={s.socialItem}>
-            <a className={s.link} href="#" aria-label="канал в телеграм">
+        <ul className={style.socialList}>
+          <li className={style.socialItem}>
+            <a className={style.link} href="#" aria-label="канал в телеграм">
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -26,8 +26,8 @@ export const Footer = () => (
             </a>
           </li>
 
-          <li className={s.socialItem}>
-            <a className={s.link} href="#" aria-label="канал в youtube">
+          <li className={style.socialItem}>
+            <a className={style.link} href="#" aria-label="канал в youtube">
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -37,8 +37,8 @@ export const Footer = () => (
             </a>
           </li>
 
-          <li className={s.socialItem}>
-            <a className={s.link} href="#" aria-label="группа в вк">
+          <li className={style.socialItem}>
+            <a className={style.link} href="#" aria-label="группа в вк">
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -50,21 +50,21 @@ export const Footer = () => (
         </ul>
       </address>
 
-      <div className={s.developers}>
-        <p className={s.developersTitle}>Проект сделан в учебных целях</p>
+      <div className={style.developers}>
+        <p className={style.developersTitle}>Проект сделан в учебных целях</p>
 
-        <ul className={s.developersList}>
-          <li className={s.developersItem}>
-            Designer: <a className={s.link} href="Anastasia_Ilina">Anastasia
+        <ul className={style.developersList}>
+          <li className={style.developersItem}>
+            Designer: <a className={style.link} href="Anastasia_Ilina">Anastasia
               Ilina</a>
           </li>
-          <li className={s.developersItem}>
-            Developer: <a className={s.link} href="Nika_Tolk">Nika Krukova</a>
+          <li className={style.developersItem}>
+            Developer: <a className={style.link} href="Nika_Tolk">Nika Krukova</a>
           </li>
         </ul>
       </div>
 
-      <p className={s.copyright}>©MIRANO, 2024</p>
+      <p className={style.copyright}>©MIRANO, 2024</p>
     </div>
   </footer>
 );

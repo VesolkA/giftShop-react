@@ -1,9 +1,10 @@
-import './goods.scss';
+import style from "./Goods.module.scss";
 import { Card } from "../Card/Card";
 import { Cart } from "../Cart/Cart";
 import { useSelector } from 'react-redux';
 import { API_URL } from '../../const';
 import { Preload } from '../Preload/Preload';
+import classNames from "classnames";
 
 export const Goods = ({ title }) => {
   const {
@@ -20,10 +21,10 @@ export const Goods = ({ title }) => {
 
   if (goodsStatus === "succeeded" && goods.length) {
     content = (
-      <ul className="goods__list">
+      <ul className={style.list}>
         {goods.map((item) => (
-          <li key={item.id} className="goods__item">
-            <Card className='goods__card'
+          <li key={item.id} className={style.item}>
+            <Card className={style.card}
               id={item.id}
               img={`${API_URL}${item.photoUrl}`}
               title={item.name}
@@ -37,18 +38,18 @@ export const Goods = ({ title }) => {
   }
 
   if (goodsStatus === "succeeded" && !goods.length) {
-    content = <p className='goods__content'>По вашему запросу ничего не найдено!</p>
+    content = <p className={style.content}>По вашему запросу ничего не найдено!</p>
   }
 
   if (goodsStatus === 'failed') {
-    content = <p className='goods__content'>Ошибка загрузки товаров: {error}</p>;
+    content = <p className={style.content}>Ошибка загрузки товаров: {error}</p>;
   }
 
   return (
-    <section className="goods" style={{ position: goodsStatus === "loading" ? "relative" : "" }}>
-      <div className="container goods__container">
-        <div className="goods__box">
-          <h2 className="goods__title">{title}</h2>
+    <section className={style.goods} style={{ position: goodsStatus === "loading" ? "relative" : "" }}>
+      <div className={classNames(style.container, "container")}>
+        <div className={style.box}>
+          <h2 className={style.title}>{title}</h2>
           {content}
         </div>
         <Cart />
