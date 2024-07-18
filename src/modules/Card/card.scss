@@ -58,9 +58,10 @@
 
   &__date-delivery {
     padding-left: 20px;
-    background-image: url("/img/delivery&__svg");
+    text-align: center;
+    background-image: url("/img/delivery.svg");
     background-repeat: no-repeat;
-    background-position: left bottom;
+    background-position: left center;
     font-size: 14px;
 
     @include mobile {

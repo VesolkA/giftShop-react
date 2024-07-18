@@ -27,7 +27,7 @@ export const CartItem = ({ id, photoUrl, name, price, quantity }) => {
     dispatch(addItemToCart({ productId: id, quantity: newQuantity }));
   };
 
-  const handleIncrement = () => {
+  const handleInrement = () => {
     const newQuantity = inputQuantity + 1;
     setInputQuantity(newQuantity);
     dispatch(addItemToCart({ productId: id, quantity: newQuantity }));
@@ -35,22 +35,27 @@ export const CartItem = ({ id, photoUrl, name, price, quantity }) => {
 
   return (
     <li className={style.item}>
-      <img className={style.img}
-        src={`${API_URL}${photoUrl}`}
-        alt={name} />
+      <img className={style.img} src={`${API_URL}${photoUrl}`} alt={name} />
       <h4 className={style.title}>{name}</h4>
       <div className={style.counter}>
-        <button className={style.btn} onClick={handleDecrement} >-</button>
+        <button className={style.btn} onClick={handleDecrement}>
+          -
+        </button>
         <input
           className={style.input}
           type="number"
           max="99"
           min="0"
           value={inputQuantity}
-          onChange={handleInputChange} 
-          />
-        <button className={style.btn} onClick={handleIncrement} >+</button></div>
-      <p className={style.price}>{inputQuantity ? price * inputQuantity : 0}&nbsp;₽</p>
+          onChange={handleInputChange}
+        />
+        <button className={style.btn} onClick={() => handleInrement()}>
+          +
+        </button>
+      </div>
+      <p className={style.price}>
+        {inputQuantity ? price * inputQuantity : 0}&nbsp;₽
+      </p>
     </li>
-  )
+  );
 };

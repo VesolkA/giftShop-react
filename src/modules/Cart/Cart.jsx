@@ -1,17 +1,21 @@
 import { CartItem } from '../CartItem/CartItem';
 import { useDispatch, useSelector } from 'react-redux';
 import './cart.scss';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toggleCart } from '../../redux/slices/cartSlice';
 import { openModal } from '../../redux/slices/orderSlice';
+import { Preload } from "../Preload/Preload";
 
 export const Cart = () => {
   const dispatch = useDispatch();  
   const isOpen = useSelector((state) => state.cart.isOpen);
   const goodsInCart = useSelector((state) => state.cart.items);
+  const status = useSelector((state) => state.cart.status);
   
 
   const cartRef = useRef(null);
+
+  const [dateDelivery, setDateDelivery] = useState('');
 
   const handlerCartClose = () => {
     dispatch(toggleCart());
@@ -21,12 +25,34 @@ export const Cart = () => {
     dispatch(openModal());
   };
 
+  const calcDeliveryTime = () => {
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+
+    let deliveryDate;
+    if (currentHour < 21) {
+      if (currentHour >= 9 && currentHour + 3 < 21) {
+        const deliveryTime = new Date(currentDate.getTime() + 3 * 60 * 60 * 1000);
+        deliveryDate = `сегодня после ${deliveryTime.getHours()}:00`;
+      } else {
+        deliveryDate = `сегодня после 21:00`;
+      }
+    } else {
+      deliveryDate = `завтра с 9:00`;
+    }
+    return `${deliveryDate}`;
+  };
+
+  useEffect(() => {
+    const deliveryTime = calcDeliveryTime();
+    setDateDelivery(deliveryTime);
+  }, []);
+
   useEffect(() => {
     if (isOpen) {
       cartRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [isOpen]);
-
 
 
   if (!isOpen) return null;
@@ -48,17 +74,24 @@ export const Cart = () => {
           </button>
         </div>
 
-        <p className="cart__date-delivery">сегодня в 14:00</p>
+        <p className="cart__date-delivery">{dateDelivery}</p>
 
-        <ul className="cart__list">
-          {goodsInCart.map((item) => (
-            <CartItem key={item.id} {...item} />
-          ))}
-        </ul>
+        {status === "loading" ? (
+          <div className="cart__preload">
+            <Preload />
+          </div>
+        ) : (
+          <ul className="cart__list">
+            {goodsInCart.map((item) => (
+              <CartItem key={item.id} {...item} />
+            ))}
+          </ul>
+        )}
 
         <div className="cart__footer">
           <button className="cart__order-btn"
-            onClick={handlerOrderOpen} disabled={!goodsInCart.length}>Оформить</button>
+            onClick={handlerOrderOpen} 
+            disabled={!goodsInCart.length}>Оформить</button>
           <p className="cart__price cart__price_total">
             {goodsInCart.reduce((acc, item) => acc + item.price * item.quantity, 0)}&nbsp;₽</p>
             

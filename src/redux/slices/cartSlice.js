@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { registerCart } from '../thunks/registerCart';
 import { fetchCart } from '../thunks/fetchCart';
 import { addItemToCart } from '../thunks/addItemToCart';
-// import { addItemToCart } from '../thunks/addItemToCart';
 
 const initialState = {
   isOpen: false,
@@ -29,7 +28,7 @@ const cartSlice = createSlice({
         state.status = "loading";
       })
       .addCase(registerCart.fulfilled, (state, action) => {
-        state.status = "success";
+        state.status = "succeeded";
         state.accessKey = action.payload.accessKey;
       })
       .addCase(registerCart.rejected, (state, action) => {
@@ -43,7 +42,7 @@ const cartSlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchCart.fulfilled, (state, action) => {
-        state.status = "success";
+        state.status = "succeeded";
         state.items = action.payload;
       })
       .addCase(fetchCart.rejected, (state, action) => {
@@ -56,7 +55,7 @@ const cartSlice = createSlice({
         state.status = "loading";
       })
       .addCase(addItemToCart.fulfilled, (state, action) => {
-        state.status = "success";
+        state.status = "succeeded";
         state.items = action.payload;
       })
       .addCase(addItemToCart.rejected, (state, action) => {

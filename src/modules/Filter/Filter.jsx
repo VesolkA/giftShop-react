@@ -59,10 +59,10 @@ export const Filter = ({ setTitleGoods }) => {
       prevMaxPrice !== filters.maxPrice
     ) {
       debouncedFetchGoods(validFilter);
-    
-    } else {
       
+    } else {
       dispatch(fetchGoods(validFilter));
+
       const type = filterTypes.find((item) => item.value === validFilter.type);
 
       if (type) {
@@ -70,7 +70,7 @@ export const Filter = ({ setTitleGoods }) => {
       }
 
       if (validFilter.search) {
-        setTitleGoods("Результаты поиска:");
+        setTitleGoods("Результаты поска:");
       }
     }
 

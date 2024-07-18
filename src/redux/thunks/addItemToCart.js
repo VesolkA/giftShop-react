@@ -1,8 +1,8 @@
-import { createAsyncThunk, } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { API_URL } from "../../const";
 
-export const addItemToCart = createAsyncThunk('cart/addItemToCart',
-
+export const addItemToCart = createAsyncThunk(
+  "cart/addItemToCart",
   async ({ productId, quantity }, { getState, rejectWithValue }) => {
     try {
       const state = getState();

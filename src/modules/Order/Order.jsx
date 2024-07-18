@@ -13,6 +13,7 @@ export const Order = () => {
   const orderData = useSelector((state) => state.order.data);
   const itemsFullSum =useSelector((state) => state.cart.items);
 
+  
   const handlerClose = useCallback(() => {
     dispatch(closeModal());
   }, [dispatch]);
@@ -30,6 +31,24 @@ const handleSubmit = (e) => {
   dispatch(sendOrder());
 };
 
+const calcDeliveryDate = () => {
+  const currentDate = new Date();
+  const currentHour = currentDate.getHours();
+
+  if (currentHour < 19) {
+    return currentDate.toISOString().split('T')[0];
+  } else {
+    const nextDay = new Date(currentDate);
+    nextDay.setDate(currentDate.getDate() + 1);
+    return nextDay.toISOString().split('T')[0];
+  }
+};
+
+const getMinDeliveryDate = () => {
+  const currentDate = new Date();
+  return currentDate.toISOString().split('T')[0];
+};
+
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === 'Ecscape') {
@@ -39,12 +58,14 @@ const handleSubmit = (e) => {
 
     if (isOpen) {
       document.addEventListener('keydown', handleEsc);
+      const initialDeliveryDate = calcDeliveryDate();
+      dispatch(updateOrderData({ deliveryDate: initialDeliveryDate }));
     }
 
     return () => {
       document.removeEventListener('keydown', handleEsc);
     }
-  }, [isOpen, handlerClose]);
+  }, [isOpen, handlerClose, dispatch]);
 
   if (!isOpen) return null;
 
@@ -149,6 +170,7 @@ const handleSubmit = (e) => {
                   className={style.input}
                   type="date" 
                   name="deliveryDate" 
+                  min={getMinDeliveryDate()}
                   value={orderData.deliveryDate}
                   onChange={handleChange}
                   required
