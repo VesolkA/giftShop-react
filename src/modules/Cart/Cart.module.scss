@@ -5,10 +5,9 @@
   align-self: start;
   padding-top: 100px;
   display: none;
-
+}
   .open {
     display: flex;
-  }
 
   @media (max-width: 1360px) {
     padding: 0;
@@ -26,6 +25,7 @@
     right: 14px;
   }
 }
+
   .container {
     border-radius: 32px;
     padding: 24px 16px;
