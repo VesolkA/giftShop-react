@@ -13,7 +13,7 @@ export const CartItem = ({ id, photoUrl, name, price, quantity }) => {
     if (isNumber(newQuantity)) {
       dispatch(addItemToCart({ productId: id, quantity: newQuantity }));
     }
-  }, 500);
+  }, 100);
 
   const handleInputChange = (e) => {
     const newQuantity = parseInt(e.target.value);

@@ -1,0 +1,95 @@
+@use "@scss/varibles" as *;
+@use "@scss/media" as *;
+
+
+.blockArticles {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.article {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.articleImg {
+  border-radius: 32px;
+  width: 160px;
+  max-height: 200px;
+
+  &.expandedImg {
+    width: 100%; 
+    max-width: 326px;
+    max-height: 400px;
+    @include mobile {
+      display: none;
+    } 
+  }
+}
+
+.articleTitle {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.3;
+  color: $dark;
+  font-family: $font-family;
+  @include tablet {
+    font-size: 18px;
+  }
+}
+
+.articleDescription {
+  padding-top: 10px;
+  padding-bottom: 20px;
+  max-height: 50px;
+  overflow: hidden;
+
+  &.expandedText {
+    max-height: none;
+  }
+}
+
+.articleParagraph {
+  padding: 6px 0;
+}
+
+p {
+  font-family: $font-family;
+  font-size: 16px;
+  line-height: 1.3;
+  color: $dark;
+  @include tablet {
+    font-size: 14px;
+  }
+}
+
+h3 {
+  font-family: $font-family;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.4;
+  color: $dark;
+  @include tablet {
+    font-size: 16px;
+  }
+}
+
+.toggleButton {
+  margin-top: 20px;
+
+  background-color: $light-orange;
+  color: white;
+  border: none;
+  border-radius: 32px;
+    padding: 10px 16px 10px 16px;
+  cursor: pointer;
+  &:hover {
+    background: $orange;
+  }
+}

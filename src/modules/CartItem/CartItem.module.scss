@@ -54,11 +54,15 @@
   text-align: center;
   background-color: transparent;
   outline: 1px solid transparent;
+  -moz-appearance: textfield;
 
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
-    appearance: none;
+    -webkit-appearance: none;
     margin: 0;
+  }
+  &::-moz-appearance {
+    appearance: textfield;
   }
 
   &:focus-visible {

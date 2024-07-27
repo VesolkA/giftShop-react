@@ -57,5 +57,3 @@ export const adjustElementPosition = (element, count = 0) => {
     adjustElementPosition(element, ++count);
   }
 };
-
-

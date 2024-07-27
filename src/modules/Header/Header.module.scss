@@ -1,130 +1,229 @@
 @use "@scss/varibles" as *;
 @use "@scss/media" as *;
 
-@keyframes slideDown {
-  to {
-    top: 0;
-  }
-}
+// @keyframes slideDown {
+//   to {
+//     top: 0;
+//   }
+// }
 
 .header {
   padding: 32px 0;
 
-  &_fixed {
-    position: fixed;
-    top: -100%;
-    left: 0;
-    right: 0;
-    z-index: 998;
-    box-shadow: 0 4px 2px -2px $footer;
-    background-color: $footer;
-    animation: slideDown 0.3s forwards;
-  }
+  // &_fixed {
+  //   position: fixed;
+  //   top: -100%;
+  //   left: 0;
+  //   right: 0;
+  //   z-index: 998;
+  //   box-shadow: 0 4px 2px -2px $footer;
+  //   background-color: $footer;
+  //   animation: slideDown 0.3s forwards;
+  // }
 
   @include mobile {
     padding: 24px 0;
   }
 }
-  .container {
-    display: grid;
-    align-items: center;
-    justify-content: space-between;
-    gap: 32px;
-    grid-template-columns: repeat(3, 1fr);
 
-    @include tablet {
-      grid-template-areas:
-        ". logo cart"
-        "form form form";
-    }
+.container {
+  display: grid;
+  align-items: center;
+  justify-content: space-between;
+  grid-template-columns: repeat(3, 1fr);
 
-    @include mobile {
-      gap: 24px;
-      grid-template-areas:
-        "logo logo cart"
-        "form form form";
-    }
+  @include tablet {
+    gap: 32px 0px;
+    grid-template-areas:
+      "burger logo cart"
+      "form form form";
   }
 
-  .form {
-    position: relative;
-    max-width: 420px;
-    width: 100%;
-    height: 40px;
+  @include mobile {
+    gap: 24px 0px;
+  }
+}
 
-    @include laptop {
-      max-width: 302px;
-    }
 
-    @include tablet {
-      grid-area: form;
-      max-width: 100%;
-    }
+.form {
+  position: relative;
+  max-width: 420px;
+  width: 100%;
+  height: 40px;
+  grid-column: 1;
+
+  @include laptop {
+    max-width: 302px;
   }
 
-  .input {
-    width: 100%;
+  @include tablet {
+    grid-area: form;
+    max-width: 100%;
+  }
+}
+
+.input {
+  width: 100%;
+  height: 100%;
+  border-radius: 32px;
+  padding: 8px 56px 8px 16px;
+  border: none;
+  outline: none;
+
+  &:hover {
+    outline: 2.2px solid $light-orange;
+  }
+
+  &::placeholder {
+    color: rgba($dark, 0.3);
+  }
+
+  &::-webkit-search-cancel-button {
+    display: none;
+  }
+}
+
+.search-button {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 32px;
+  background-color: $light-orange;
+}
+
+.logo {
+  justify-self: center;
+  width: 200px;
+  grid-column: 2;
+
+  @include tablet {
+    grid-area: logo;
+    min-width: 140px;
+  }
+
+  @include mobile {
+    min-width: 140px;
+    width: 140px;
     height: 100%;
-    border-radius: 32px;
-    padding: 8px 56px 8px 16px;
-    border: none;
-    outline: none;
-    &:hover {
-      outline: 2.2px solid $light-orange;
-    }
+  }
+}
 
-    &::placeholder {
-      color: rgba($dark, 0.3);
-    }
+.nav {
+  grid-column: 3 / 3;
+  grid-row: 1;
+  display: block;
+  justify-self: start;
+  max-width: 240px;
+  width: 100%;
 
-    &::-webkit-search-cancel-button {
-      display: none;
-    }
+  @include laptop {
+    max-width: 200px;
   }
 
-  .search-button {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 40px;
-    height: 40px;
+  @include tablet {
+    display: none;
+  }
+}
+
+.navOpen {
+  display: block;
+  position: absolute;
+  top: 82px;
+  border-radius: 8px;
+  width: fit-content;
+  background: white;
+  padding: 8px 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  @include mobile {
+    top: 64px;
+  }
+}
+
+.navLists {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+
+  @include tablet {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 32px;
-    background-color: $light-orange;
+    flex-direction: column;
+    align-items: start;
+    gap: 4px;
+  }
+}
+
+.list {
+  font-size: 22px;
+  font-family: $second-family;
+  font-style: italic;
+  color: $dark;
+  cursor: pointer;
+
+  &:hover {
+    color: $green;
   }
 
-  .logo {
-    justify-self: center;
-    width: 200px;
-
-    @include tablet {
-      grid-area: logo;
-    }
-
-    @include mobile {
-      justify-self: start;
-      width: 140px;
-    }
+  @include laptop {
+    font-size: 20px;
   }
+}
 
-  .cart-button {
-    background: url("/img/cart.svg") no-repeat center/contain;
-    width: 28px;
-    height: 28px;
-    justify-self: end;
+.cart-button {
+  background: url("/img/cart1.svg") no-repeat center/contain;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  justify-self: end;
+  align-items: end;
+  align-self: center;
+  font-size: 14px;
+  line-height: 1.3;
+  color: $orange;
+  grid-column: 3 / 4;
+  grid-row: 1;
+
+  @include tablet {
+    grid-area: cart;
+  }
+}
+
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 26px;
+  width: 26px;
+
+  @include tablet {
+    grid-area: burger;
     display: flex;
-    justify-content: center;
-    align-items: end;
-
-    font-size: 14px;
-    line-height: 1.3;
-    text-align: center;
-    color: $orange;
-
-    @include tablet {
-      grid-area: cart;
-    }
   }
+}
+
+.burgerLine {
+  height: 2px;
+  background-color: $orange;
+  width: 26px;
+}
+
+.burgerClose {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 26px;
+  width: 26px;
+  @include tablet {
+    grid-area: burger;
+    display: flex;
+  }
+}
