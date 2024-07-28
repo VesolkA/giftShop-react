@@ -1,13 +1,22 @@
-import { useDispatch } from "react-redux";
+// cartItem.jsx
+import { memo, useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { API_URL } from "../../const";
 import style from "./CartItem.module.scss";
-import { useState } from "react";
 import { debounce, isNumber } from "../../util";
 import { addItemToCart } from "../../redux/thunks/addItemToCart";
 
-export const CartItem = ({ id, photoUrl, name, price, quantity }) => {
+export const CartItem = memo(({ id, photoUrl, name, price }) => {
   const dispatch = useDispatch();
-  const [inputQuantity, setInputQuantity] = useState(quantity);
+  const goodsInCart = useSelector((state) => state.cart.items);
+  const cartItem = goodsInCart.find(item => item.id === id);
+  const [inputQuantity, setInputQuantity] = useState(cartItem.quantity);
+
+  useEffect(() => {
+    if (cartItem) {
+      setInputQuantity(cartItem.quantity);
+    }
+  }, [cartItem]);
 
   const debounceInputChange = debounce((newQuantity) => {
     if (isNumber(newQuantity)) {
@@ -27,7 +36,7 @@ export const CartItem = ({ id, photoUrl, name, price, quantity }) => {
     dispatch(addItemToCart({ productId: id, quantity: newQuantity }));
   };
 
-  const handleInrement = () => {
+  const handleIncrement = () => {
     const newQuantity = inputQuantity + 1;
     setInputQuantity(newQuantity);
     dispatch(addItemToCart({ productId: id, quantity: newQuantity }));
@@ -38,9 +47,7 @@ export const CartItem = ({ id, photoUrl, name, price, quantity }) => {
       <img className={style.img} src={`${API_URL}${photoUrl}`} alt={name} />
       <h4 className={style.title}>{name}</h4>
       <div className={style.counter}>
-        <button className={style.btn} onClick={handleDecrement}>
-          -
-        </button>
+        <button className={style.btn} onClick={handleDecrement}>-</button>
         <input
           className={style.input}
           type="number"
@@ -49,13 +56,16 @@ export const CartItem = ({ id, photoUrl, name, price, quantity }) => {
           value={inputQuantity}
           onChange={handleInputChange}
         />
-        <button className={style.btn} onClick={() => handleInrement()}>
-          +
-        </button>
+        <button className={style.btn} onClick={handleIncrement}>+</button>
       </div>
       <p className={style.price}>
         {inputQuantity ? price * inputQuantity : 0}&nbsp;BYN
       </p>
     </li>
   );
-};
+});
+
+CartItem.displayName = "CartItem";
+
+export default CartItem;
+

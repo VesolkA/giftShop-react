@@ -1,18 +1,16 @@
-import { CartItem } from '../CartItem/CartItem';
+// Cart.jsx 
+import { memo, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import style from './Cart.module.scss';
-import { useEffect, useRef, useState } from 'react';
 import { toggleCart } from '../../redux/slices/cartSlice';
 import { openModal } from '../../redux/slices/orderSlice';
-import { Preload } from "../Preload/Preload";
 import classNames from 'classnames';
+import CartItem from '../CartItem/CartItem';
 
-export const Cart = () => {
+export const Cart = memo(() => {
   const dispatch = useDispatch();  
   const isOpen = useSelector((state) => state.cart.isOpen);
   const goodsInCart = useSelector((state) => state.cart.items);
-  const status = useSelector((state) => state.cart.status);
-  
 
   const cartRef = useRef(null);
 
@@ -43,7 +41,7 @@ export const Cart = () => {
       } else {
         deliveryDate = `завтра с 9:00`;
       }
-    } else { // Если текущее время больше 19:00
+    } else {
       deliveryDate = `завтра с 9:00`;
     }
   
@@ -61,7 +59,6 @@ export const Cart = () => {
     }
   }, [isOpen]);
 
-
   if (!isOpen) return null;
 
   return (
@@ -69,7 +66,6 @@ export const Cart = () => {
       <div className={style.container}>
         <div className={style.header}>
           <h3 className={style.title}>Ваш заказ</h3>
-
           <button className={style.close} onClick={handlerCartClose}>
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
               xmlns="http://www.w3.org/2000/svg">
@@ -80,30 +76,24 @@ export const Cart = () => {
             </svg>
           </button>
         </div>
-
         <p className={style['date-delivery']}>{dateDelivery}</p>
-
-        {status === "loading" ? (
-          <div className={style.preload}>
-            <Preload />
-          </div>
-        ) : (
-          <ul className={style.list}>
-            {goodsInCart.map((item) => (
-              <CartItem key={item.id} {...item} />
-            ))}
-          </ul>
-        )}
-
+        <ul className={style.list}>
+          {goodsInCart.map((item) => (
+            <CartItem key={item.id} {...item} />
+          ))}
+        </ul>
         <div className={style.footer}>
           <button className={style['order-btn']}
             onClick={handlerOrderOpen} 
             disabled={!goodsInCart.length}>Оформить</button>
           <p className={classNames(style.price, style['price_total'])}>
             {goodsInCart.reduce((acc, item) => acc + item.price * item.quantity, 0)}&nbsp;BYN</p>
-            
         </div>
       </div>
     </section>
   );
-};
+});
+
+Cart.displayName = "Cart";
+
+export default Cart;
