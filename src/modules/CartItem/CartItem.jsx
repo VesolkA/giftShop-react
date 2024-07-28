@@ -54,7 +54,7 @@ export const CartItem = ({ id, photoUrl, name, price, quantity }) => {
         </button>
       </div>
       <p className={style.price}>
-        {inputQuantity ? price * inputQuantity : 0}&nbsp;₽
+        {inputQuantity ? price * inputQuantity : 0}&nbsp;BYN
       </p>
     </li>
   );

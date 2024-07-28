@@ -1,0 +1,12 @@
+@use "@scss/varibles" as *;
+@use "@scss/media" as *;
+
+.container {
+  border-radius: 32px;
+}
+
+.title {
+  font-size: 20px;
+  padding-bottom: 15px;
+  color: red;
+}

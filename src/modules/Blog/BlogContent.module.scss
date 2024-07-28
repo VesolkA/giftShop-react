@@ -22,14 +22,30 @@
   border-radius: 32px;
   width: 160px;
   max-height: 200px;
+  object-fit: cover;
+
+  @include mobile {
+    width: 120px;
+    height: 150px;
+  }
 
   &.expandedImg {
-    width: 100%; 
-    max-width: 326px;
-    max-height: 400px;
+    width: 490px;
+    max-height: 600px;
+    object-fit: cover;
+
+    @include laptop {
+      width: 400px;
+      max-height: 490px;
+    }
+    @include tablet {
+      width: 240px;
+      height: 290px;
+    }
+
     @include mobile {
-      display: none;
-    } 
+      display: none; 
+    }
   }
 }
 
@@ -39,6 +55,7 @@
   line-height: 1.3;
   color: $dark;
   font-family: $font-family;
+
   @include tablet {
     font-size: 18px;
   }
@@ -64,6 +81,7 @@ p {
   font-size: 16px;
   line-height: 1.3;
   color: $dark;
+
   @include tablet {
     font-size: 14px;
   }
@@ -75,6 +93,7 @@ h3 {
   font-size: 18px;
   line-height: 1.4;
   color: $dark;
+
   @include tablet {
     font-size: 16px;
   }
@@ -87,8 +106,9 @@ h3 {
   color: white;
   border: none;
   border-radius: 32px;
-    padding: 10px 16px 10px 16px;
+  padding: 10px 16px 10px 16px;
   cursor: pointer;
+
   &:hover {
     background: $orange;
   }

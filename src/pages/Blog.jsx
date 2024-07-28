@@ -1,5 +1,4 @@
-// import { useState } from "react";
-import style from "./Blog.module.scss";
+import style from "./PageStyle.module.scss";
 import { Subscribe } from "../modules/Subscribes/Subscribe";
 import { Cart } from '../modules/Cart/Cart';
 import classNames from 'classnames';

@@ -1,0 +1,63 @@
+@use "../../scss/varibles" as *;
+@use "../../scss/media" as *;
+
+
+.contact {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background: $white;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+}
+
+.information {
+  display: flex;
+  justify-content: space-around;
+  @include laptop {
+    justify-content: space-between;
+  }
+  @include tablet {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+}
+
+.info {
+  padding-left: 30px;
+  background-repeat: no-repeat;
+  background-position: center left;
+  color: $dark;
+  @include laptop {
+    font-size: 16px;
+    padding-left: 20px;
+  }
+}
+
+.address {
+  background-image: url('/img/location.png');
+}
+
+.email {
+  background-image: url('/img/message.png');
+
+  &:hover {
+    text-decoration: underline;
+    color: $green;
+  }
+}
+
+.phone {
+  background-image: url('/img/calling.png');
+
+  &:hover {
+    text-decoration: underline;
+    color: $green;
+  }
+}

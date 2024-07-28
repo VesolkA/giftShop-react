@@ -10,7 +10,7 @@ export const Card = ({ className, id, img, title, price }) => {
   const dispatch  = useDispatch();
   const isOpenCart = useSelector((state) => state.cart.isOpen);
 
-  const [buttonText, setButtonText] = useState(`${price}\u00A0₽`); 
+  const [buttonText, setButtonText] = useState(`${price}\u00A0BYN`); 
 
   const [dateDelivery, setDateDelivery] = useState('');
 
@@ -26,7 +26,7 @@ export const Card = ({ className, id, img, title, price }) => {
     setButtonText('в корзину');
   }
   const handleMouseLeave = () => {
-    setButtonText(`${price}\u00A0₽`);
+    setButtonText(`${price}\u00A0BYN`);
   }
 
   const calcDeliveryTime = () => {

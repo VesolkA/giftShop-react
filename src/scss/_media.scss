@@ -1,6 +1,13 @@
+$fullscreen: 1440px;
 $laptop: 1024px;
 $tablet: 768px;
 $mobile: 520px;
+
+@mixin fullscreen {
+  @media (max-width: $fullscreen) {
+      @content;
+  }
+}
 
 @mixin laptop {
   @media (max-width: $laptop) {

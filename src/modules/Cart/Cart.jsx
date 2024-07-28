@@ -100,7 +100,7 @@ export const Cart = () => {
             onClick={handlerOrderOpen} 
             disabled={!goodsInCart.length}>Оформить</button>
           <p className={classNames(style.price, style['price_total'])}>
-            {goodsInCart.reduce((acc, item) => acc + item.price * item.quantity, 0)}&nbsp;₽</p>
+            {goodsInCart.reduce((acc, item) => acc + item.price * item.quantity, 0)}&nbsp;BYN</p>
             
         </div>
       </div>

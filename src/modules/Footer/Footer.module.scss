@@ -4,9 +4,16 @@
 
 .footer {
   padding: 80px 0;
-  background: $footer url("/img/figure.svg") no-repeat;
+  background: $footer url("/img/figure0.svg") no-repeat;
   background-position: bottom;
   background-size: 100%;
+  @include fullscreen {
+    background-size: cover;
+    background-size: auto 72%;
+}
+@include mobile {
+    background-size: auto 78%;
+}
 }
 
 .container {
