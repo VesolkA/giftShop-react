@@ -1,3 +1,4 @@
+// Goods.jsx 
 import style from "./Goods.module.scss";
 import { Card } from "../Card/Card";
 import { Cart } from "../Cart/Cart";

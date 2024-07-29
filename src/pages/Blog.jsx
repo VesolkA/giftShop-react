@@ -1,3 +1,4 @@
+// page Blog.jsx
 import style from "./PageStyle.module.scss";
 import { Subscribe } from "../modules/Subscribes/Subscribe";
 import { Cart } from '../modules/Cart/Cart';
@@ -13,7 +14,6 @@ const Blog = () => {
           <h1 className={style.title}>Блог</h1>
           <div className={style.contentBlock}>
             <BlogContent />
-
             <Cart />
 
           </div>

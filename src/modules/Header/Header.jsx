@@ -1,17 +1,22 @@
+// Header.jsx
 import { useDispatch, useSelector } from 'react-redux';
 import style from './Header.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import { toggleCart } from '../../redux/slices/cartSlice';
 // import { fetchGoods } from '../../redux/thunks/fetchGoods';
-import { changeSearch } from '../../redux/slices/filtersSlice';
+// import { changeSearch } from '../../redux/slices/filtersSlice';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // add
+import { changeSearch } from '../../redux/slices/filtersSlice';
 
 export const Header = () => {
   const dispatch = useDispatch();
+  
   const cartItems = useSelector((state) => state.cart.items);
   const [searchValue, setSearchValue] = useState("");
   const [menuOpen, setMenuOpen] = useState(false); // add with help
+  const navigate = useNavigate(); // Создать navigate
 
   const searchInputRef = useRef(null);
 
@@ -25,11 +30,13 @@ export const Header = () => {
       searchInputRef.current.style.cssText = "";
       dispatch(changeSearch(searchValue));
       setSearchValue("");
+      navigate(`/search?query=${searchValue}`);  // Перенаправление на страницу результатов поиска
     } else {
       searchInputRef.current.style.cssText = `
       outline: 2px solid tomato;
       outlineOffset: 5px;
    `;
+
 
       setTimeout(() => {
         searchInputRef.current.style.cssText = "";
@@ -54,7 +61,7 @@ export const Header = () => {
 
   return (
     <header className={style.header}>
-      <div className={classNames(style.container, "container")} >
+      <div className={classNames(style.container, "container")}>
         <form className={style.form} action="#" onSubmit={handleSubmit}>
           <input
             className={style.input}
@@ -108,12 +115,10 @@ export const Header = () => {
           </ul>
         </nav>
 
-        <button className={style['cart-button']}
-          onClick={handlerCartToggle}>
+        <button className={style['cart-button']} onClick={handlerCartToggle}>
           {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
         </button>
       </div>
     </header>
-
   );
 };

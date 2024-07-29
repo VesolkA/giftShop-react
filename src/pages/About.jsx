@@ -1,3 +1,4 @@
+// page About.jsx
 import style from "./PageStyle.module.scss";
 import { Subscribe } from "../modules/Subscribes/Subscribe";
 import { Cart } from '../modules/Cart/Cart';
@@ -27,7 +28,7 @@ const About = () => {
                 Спасибо, что выбрали нас! Позвольте нам стать частью ваших радостных моментов и помогите нам сделать мир немного счастливее вместе с вами.
               </p>
               <div className={style.contantInfo}>
-                {/* <h3 className={style.contactTitle}>Контактные данные:</h3> */}
+                
               <p className={style.textAbout}><b>Офис и пункт самовывоза:</b> г.Минск, пр. Дзержинского, 146-2</p>
               <p className={style.textAbout}> OOO &quot;МИРАНО БЕЛ&quot;</p>
               <p className={style.textAbout}>УНП: 945865236</p>

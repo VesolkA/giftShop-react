@@ -1,0 +1,20 @@
+// src/modules/Search/PageStyle.module.scss
+.searchResults {
+  padding: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 1em;
+  color: #666;
+}

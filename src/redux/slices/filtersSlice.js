@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
+// slises Redux filterSlice.js
+import { createSlice } from '@reduxjs/toolkit';
 import { isNumber } from '../../util';
 
 const initialState = {

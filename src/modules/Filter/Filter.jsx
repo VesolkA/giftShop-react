@@ -1,3 +1,4 @@
+// Filter.jsx
 import { Choices } from '../Choices/Choices';
 import './filter.scss';
 import { getValidFilters, debounce } from '../../util';
